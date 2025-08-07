@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tanker Font Family - Definido aqui para ter prioridade */
+@font-face {
+  font-family: 'Tanker-Regular';
+  src: url('/fonts/tanker/Tanker-Regular.woff2') format('woff2'),
+       url('/fonts/tanker/Tanker-Regular.woff') format('woff'),
+       url('/fonts/tanker/Tanker-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* SOLUÇÃO CENTRALIZADA: Aplicar Tanker-Regular em TODOS os botões automaticamente */
+@layer base {
+  /* Aplicar Tanker-Regular em todos os botões */
+  button {
+    font-family: 'Tanker-Regular', 'Montserrat', sans-serif !important;
+  }
+  
+  /* Aplicar Tanker-Regular em botões com classes específicas */
+
+  button[class*="font-medium"] {
+    font-family: 'Tanker-Regular', 'Montserrat', sans-serif !important;
+   
+  }
+  
+  /* Aplicar Tanker-Regular em botões com classes de tamanho */
+  button[class*="text-sm"],
+  button[class*="text-base"],
+  button[class*="text-lg"],
+  button[class*="text-xl"] {
+    font-family: 'Tanker-Regular', 'Montserrat', sans-serif !important;
+  }
+}
+
+/* Classe utilitária para casos específicos */
+@layer utilities {
+  .font-tanker {
+    font-family: 'Tanker-Regular', 'Montserrat', sans-serif !important;
+  }
+  
+}
