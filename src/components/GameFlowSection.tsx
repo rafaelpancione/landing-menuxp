@@ -15,7 +15,7 @@ const GameFlowSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-br from-white via-blue-50/30 to-white relative overflow-hidden">
+    <section id="games" className="py-16 px-4 bg-gradient-to-br from-white via-blue-50/30 to-white relative overflow-hidden scroll-mt-24">
       <div className="absolute inset-0">
         <img
           src={patternRed}

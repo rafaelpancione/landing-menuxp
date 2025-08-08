@@ -36,7 +36,7 @@ const AIRevenueSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-br from-white via-blue-50/30 to-white relative overflow-hidden">
+    <section id="ai-revenue" className="py-16 px-4 bg-gradient-to-br from-white via-blue-50/30 to-white relative overflow-hidden scroll-mt-24">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <img src={patternRed} alt="Background pattern" className="w-full h-full object-cover opacity-5" />

@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="bg-black text-white">
+    <footer id="contato" className="bg-black text-white scroll-mt-24">
       {/* Newsletter Section */}
       <div className="border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-12">

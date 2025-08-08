@@ -16,6 +16,28 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // === NOVO: handler para rolar suavemente até âncoras (#id) com offset do header ===
+  const handleAnchorClick = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    href?: string
+  ) => {
+    const targetHref = href ?? (e.currentTarget.getAttribute('href') || '');
+    if (!targetHref.startsWith('#')) return; // deixa links externos funcionarem normalmente
+
+    e.preventDefault();
+
+    const id = targetHref.slice(1);
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    // Offset do header fixo (ajuste fino se necessário)
+    const headerOffset = 96; // ~6rem; combina com scroll-mt-24
+    const elementTop = el.getBoundingClientRect().top + window.pageYOffset;
+    const top = elementTop - headerOffset;
+
+    window.scrollTo({ top, behavior: 'smooth' });
+  };
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
     setActiveDropdown(null);
@@ -31,14 +53,12 @@ const Header: React.FC = () => {
       hasDropdown: true,
       dropdownItems: [
         { label: 'App White Label', href: '#white-label' },
-        { label: 'Jogos Personalizados', href: '#games' },
-        { label: 'IA de Receita', href: '#ai-revenue' },
-        { label: 'Painel Admin', href: '#admin-panel' }
+        { label: 'Gamificação', href: '#games' },
+        { label: 'Recomendações com IA', href: '#ai-revenue' }
       ]
     },
-    { label: 'Preços', href: '#pricing' },
-    { label: 'Depoimentos', href: '#testimonials' },
-    { label: 'Suporte', href: '#support' }
+    { label: 'Planos', href: '#pricing' },
+    { label: 'Contato', href: '#contato' }
   ];
 
   return (
@@ -55,8 +75,8 @@ const Header: React.FC = () => {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center space-x-3">
-  <Logo size="md" className="transition-all duration-300" />
-</div>
+              <Logo size="md" className="transition-all duration-300" />
+            </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
@@ -76,6 +96,7 @@ const Header: React.FC = () => {
                     <a
                       href={item.href}
                       className="font-montserrat font-medium text-white hover:text-menuxp-yellow transition-colors py-2"
+                      onClick={(e) => handleAnchorClick(e)}
                     >
                       {item.label}
                     </a>
@@ -94,7 +115,10 @@ const Header: React.FC = () => {
                             key={dropdownIndex}
                             href={dropdownItem.href}
                             className="block px-4 py-3 font-montserrat text-black hover:bg-[#FEBA0C]/10 hover:text-[#E53036] transition-colors border-b border-gray-100 last:border-b-0"
-                            onClick={() => setActiveDropdown(null)}
+                            onClick={(e) => {
+                              handleAnchorClick(e, dropdownItem.href);
+                              setActiveDropdown(null);
+                            }}
                           >
                             {dropdownItem.label}
                           </a>
@@ -105,14 +129,6 @@ const Header: React.FC = () => {
                 </div>
               ))}
             </nav>
-
-            {/* CTA Button - Desktop 
-            <div className="hidden lg:block">
-              <button className="bg-[#E53036] text-white px-6 py-3 rounded-full border-2 border-black shadow-[4px_6px_0px_#000000] font-regular font-montserrat transition-all duration-200 hover:translate-y-[3px] hover:shadow-[2px_3px_0px_#000000] active:translate-y-[6px] active:shadow-none">
-                Começar Grátis
-              </button>
-            </div>
-            */}
 
             {/* Mobile Menu Button */}
             <button
@@ -151,7 +167,8 @@ const Header: React.FC = () => {
                               key={dropdownIndex}
                               href={dropdownItem.href}
                               className="block px-4 py-2 font-montserrat text-gray-700 hover:text-[#E53036] hover:bg-[#FEBA0C]/5 rounded-lg transition-colors"
-                              onClick={() => {
+                              onClick={(e) => {
+                                handleAnchorClick(e, dropdownItem.href);
                                 setIsMenuOpen(false);
                                 setActiveDropdown(null);
                               }}
@@ -166,24 +183,16 @@ const Header: React.FC = () => {
                     <a
                       href={item.href}
                       className="block px-4 py-3 font-montserrat font-medium text-black hover:bg-[#FEBA0C]/10 rounded-lg transition-colors"
-                      onClick={() => setIsMenuOpen(false)}
+                      onClick={(e) => {
+                        handleAnchorClick(e);
+                        setIsMenuOpen(false);
+                      }}
                     >
                       {item.label}
                     </a>
                   )}
                 </div>
               ))}
-              
-              {/* Mobile CTA 
-              <div className="pt-4 border-t border-gray-200">
-                <button 
-                  className="w-full bg-[#E53036] text-white px-6 py-3 rounded-full border-2 border-black shadow-[4px_6px_0px_#000000] font-bold font-montserrat transition-all duration-200 hover:translate-y-[3px] hover:shadow-[2px_3px_0px_#000000] active:translate-y-[6px] active:shadow-none"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Começar Grátis
-                </button>
-              </div>
-              */}
             </nav>
           </div>
         </div>
