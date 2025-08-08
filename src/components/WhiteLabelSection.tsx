@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Upload, Palette, Type, Star, Users, Clock, ShoppingCart, Smartphone } from 'lucide-react';
 import pattern from '../images/pattern.svg';
 
-
 const WhiteLabelSection: React.FC = () => {
   const [selectedTemplate, setSelectedTemplate] = useState('flat');
   const [restaurantName, setRestaurantName] = useState('Meu Restaurante');
   const [selectedColor, setSelectedColor] = useState('#E53036');
   const [logo, setLogo] = useState('🍕');
+
+  const productImg = "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?q=80&w=1115&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
   // === Height sync: make preview match Configurações box height ===
   const configCardRef = useRef<HTMLDivElement | null>(null);
@@ -41,6 +42,9 @@ const WhiteLabelSection: React.FC = () => {
 
   const colors = ['#E53036', '#0097E0', '#FEBA0C'];
   const logos = ['🍕', '🍔', '🍣', '🥗', '🍰'];
+
+  // Placeholder leve e acessível para a imagem do produto (data URI, não quebra build)
+
 
   const renderMenuCard = () => {
     const baseCardClasses = "text-left space-y-2 text-xs";
@@ -113,16 +117,27 @@ const WhiteLabelSection: React.FC = () => {
 
   const renderCardContent = () => (
     <>
+      {/* Product Image + Discount Overlay */}
+      <div className="relative w-full h-24 md:h-32 rounded-md overflow-hidden">
+        <img
+          src={productImg}
+          alt="Imagem ilustrativa do produto Mega Burger"
+          className="w-full h-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+        <div className="absolute top-2 left-2">{renderDiscountTag()}</div>
+      </div>
+
       {/* Item Header */}
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-start mt-2">
         <div className="flex-1">
           <h4 className="font-bold text-black text-xs">Mega Burger</h4>
-          <div className="flex items-center space-x-1 mt-1">
-            <Star className="w-2 h-2 text-yellow-500 fill-current" />
+          <div className="flex items-center space-x-1 mt-1" aria-label="Avaliação 4.8 de 5">
+            <Star className="w-2 h-2 text-yellow-500 fill-current" aria-hidden="true" />
             <span className="text-xs text-gray-600">4.8</span>
           </div>
         </div>
-        {renderDiscountTag()}
       </div>
       
       {/* Description */}
@@ -131,30 +146,32 @@ const WhiteLabelSection: React.FC = () => {
       </p>
       
       {/* Info Tags */}
-      <div className="flex items-center space-x-1 text-xs">
-        {renderInfoTag(<Users className="w-2 h-2" />, "2-3p")}
-        {renderInfoTag(<Clock className="w-2 h-2" />, "15min")}
+      <div className="flex items-center gap-1 text-xs" aria-label="Informações do produto">
+        {renderInfoTag(<Users className="w-2 h-2" aria-hidden="true" />, "2-3p")}
+        {renderInfoTag(<Clock className="w-2 h-2" aria-hidden="true" />, "15min")}
       </div>
       
-      {/* Price and Button */}
-      <div className="flex justify-between items-center">
-        <div>
-          <div className="text-xs text-gray-500 line-through">R$ 32,90</div>
-          <div className="font-bold text-black text-sm">R$ 26,32</div>
-        </div>
-        {renderAddButton()}
+      {/* Price */}
+      <div aria-label="Preço">
+        <div className="text-xs text-gray-500 line-through">R$ 32,90</div>
+        <div className="font-bold text-black text-sm">R$ 26,32</div>
+      </div>
+
+      {/* Full-width Add Button */}
+      <div className="pt-1">
+        {renderAddButton({ fullWidth: true })}
       </div>
       
       {/* Status Indicator */}
-      <div className="flex items-center space-x-1 pt-1">
-        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+      <div className="flex items-center gap-1 pt-1" aria-live="polite">
+        <span className="w-2 h-2 bg-green-500 rounded-full" aria-hidden="true"></span>
         <span className="text-xs text-green-600">Disponível</span>
       </div>
     </>
   );
 
   const renderDiscountTag = () => {
-    const baseTagClasses = "px-1.5 py-0.5 text-xs font-bold text-white";
+    const baseTagClasses = "px-1.5 py-0.5 text-[10px] font-bold text-white";
     
     switch (selectedTemplate) {
       case 'flat':
@@ -162,6 +179,7 @@ const WhiteLabelSection: React.FC = () => {
           <div 
             className={`${baseTagClasses} rounded-full border border-black`}
             style={{ backgroundColor: selectedColor }}
+            aria-label="Desconto de 20 por cento"
           >
             -20% OFF
           </div>
@@ -175,6 +193,7 @@ const WhiteLabelSection: React.FC = () => {
               backgroundColor: selectedColor,
               boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
             }}
+            aria-label="Desconto de 20 por cento"
           >
             -20% OFF
           </div>
@@ -188,6 +207,7 @@ const WhiteLabelSection: React.FC = () => {
               backgroundColor: selectedColor,
               boxShadow: '3px 3px 6px #a3b1c6, -3px -3px 6px #ffffff'
             }}
+            aria-label="Desconto de 20 por cento"
           >
             -20% OFF
           </div>
@@ -201,6 +221,7 @@ const WhiteLabelSection: React.FC = () => {
               background: `linear-gradient(145deg, ${selectedColor}, ${selectedColor}dd)`,
               boxShadow: '0 4px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3)'
             }}
+            aria-label="Desconto de 20 por cento"
           >
             -20% OFF
           </div>
@@ -214,6 +235,7 @@ const WhiteLabelSection: React.FC = () => {
               background: `${selectedColor}aa`,
               backdropFilter: 'blur(10px)'
             }}
+            aria-label="Desconto de 20 por cento"
           >
             -20% OFF
           </div>
@@ -227,6 +249,7 @@ const WhiteLabelSection: React.FC = () => {
               backgroundColor: selectedColor,
               boxShadow: '2px 2px 0px #000000'
             }}
+            aria-label="Desconto de 20 por cento"
           >
             -20% OFF
           </div>
@@ -237,6 +260,7 @@ const WhiteLabelSection: React.FC = () => {
           <div 
             className={`${baseTagClasses} rounded-full border border-black`}
             style={{ backgroundColor: selectedColor }}
+            aria-label="Desconto de 20 por cento"
           >
             -20% OFF
           </div>
@@ -314,99 +338,112 @@ const WhiteLabelSection: React.FC = () => {
     }
   };
 
-  const renderAddButton = () => {
-    const baseButtonClasses = "px-2 py-1 text-xs font-bold text-white flex items-center space-x-1 transition-all duration-200";
-    
+  // Agora aceita { fullWidth } para ocupar 100% quando necessário
+  const renderAddButton = ({ fullWidth = false }: { fullWidth?: boolean } = {}) => {
+    const baseButtonClasses =
+      "px-3 py-2 text-xs font-bold text-white flex items-center justify-center gap-1 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black";
+
+    const sizeAndBorderFlat =
+      "rounded-full border border-black shadow-[1px_2px_0px_#000000] hover:translate-y-[1px] hover:shadow-[0px_1px_0px_#000000] active:translate-y-[2px] active:shadow-none";
+    const widthClass = fullWidth ? "w-full" : "";
+
     switch (selectedTemplate) {
       case 'flat':
         return (
           <button 
-            className={`${baseButtonClasses} rounded-full border border-black shadow-[1px_2px_0px_#000000] hover:translate-y-[1px] hover:shadow-[0px_1px_0px_#000000] active:translate-y-[2px] active:shadow-none`}
+            className={`${baseButtonClasses} ${sizeAndBorderFlat} ${widthClass}`}
             style={{ backgroundColor: selectedColor }}
+            aria-label="Adicionar Mega Burger ao carrinho"
           >
-            <ShoppingCart className="w-2 h-2" />
-            <span>Add</span>
+            <ShoppingCart className="w-3 h-3" aria-hidden="true" />
+            <span>Adicionar</span>
           </button>
         );
 
       case 'material':
         return (
           <button 
-            className={`${baseButtonClasses} rounded-full shadow-md hover:shadow-lg`}
+            className={`${baseButtonClasses} rounded-full shadow-md hover:shadow-lg ${widthClass}`}
             style={{ 
               backgroundColor: selectedColor,
               boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
             }}
+            aria-label="Adicionar Mega Burger ao carrinho"
           >
-            <ShoppingCart className="w-2 h-2" />
-            <span>Add</span>
+            <ShoppingCart className="w-3 h-3" aria-hidden="true" />
+            <span>Adicionar</span>
           </button>
         );
 
       case 'neumorphism':
         return (
           <button 
-            className={`${baseButtonClasses} rounded-full`}
+            className={`${baseButtonClasses} rounded-full ${widthClass}`}
             style={{ 
               backgroundColor: selectedColor,
               boxShadow: '3px 3px 6px #a3b1c6, -3px -3px 6px #ffffff'
             }}
+            aria-label="Adicionar Mega Burger ao carrinho"
           >
-            <ShoppingCart className="w-2 h-2" />
-            <span>Add</span>
+            <ShoppingCart className="w-3 h-3" aria-hidden="true" />
+            <span>Adicionar</span>
           </button>
         );
 
       case 'skeuomorphism':
         return (
           <button 
-            className={`${baseButtonClasses} rounded-full border border-white/30`}
+            className={`${baseButtonClasses} rounded-full border border-white/30 ${widthClass}`}
             style={{ 
               background: `linear-gradient(145deg, ${selectedColor}, ${selectedColor}dd)`,
               boxShadow: '0 4px 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3)'
             }}
+            aria-label="Adicionar Mega Burger ao carrinho"
           >
-            <ShoppingCart className="w-2 h-2" />
-            <span>Add</span>
+            <ShoppingCart className="w-3 h-3" aria-hidden="true" />
+            <span>Adicionar</span>
           </button>
         );
 
       case 'glassmorphism':
         return (
           <button 
-            className={`${baseButtonClasses} rounded-full border border-white/30`}
+            className={`${baseButtonClasses} rounded-full border border-white/30 ${widthClass}`}
             style={{ 
               background: `rgba(0, 0, 0, 0.8)`,
               backdropFilter: 'blur(10px)'
             }}
+            aria-label="Adicionar Mega Burger ao carrinho"
           >
-            <ShoppingCart className="w-2 h-2" />
-            <span>Add</span>
+            <ShoppingCart className="w-3 h-3" aria-hidden="true" />
+            <span>Adicionar</span>
           </button>
         );
 
       case 'brutalist':
         return (
           <button 
-            className={`${baseButtonClasses} border-2 border-black transform -rotate-1 hover:rotate-0 overflow-hidden`}
+            className={`${baseButtonClasses} border-2 border-black transform -rotate-1 hover:rotate-0 overflow-hidden ${widthClass}`}
             style={{ 
               backgroundColor: selectedColor,
               boxShadow: '2px 2px 0px #000000'
             }}
+            aria-label="Adicionar Mega Burger ao carrinho"
           >
-            <ShoppingCart className="w-2 h-2" />
-            <span>Add</span>
+            <ShoppingCart className="w-3 h-3" aria-hidden="true" />
+            <span>Adicionar</span>
           </button>
         );
 
       default:
         return (
           <button 
-            className={`${baseButtonClasses} rounded-full border border-black shadow-[1px_2px_0px_#000000] hover:translate-y-[1px] hover:shadow-[0px_1px_0px_#000000] active:translate-y-[2px] active:shadow-none`}
+            className={`${baseButtonClasses} ${sizeAndBorderFlat} ${widthClass}`}
             style={{ backgroundColor: selectedColor }}
+            aria-label="Adicionar Mega Burger ao carrinho"
           >
-            <ShoppingCart className="w-2 h-2" />
-            <span>Add</span>
+            <ShoppingCart className="w-3 h-3" aria-hidden="true" />
+            <span>Adicionar</span>
           </button>
         );
     }
@@ -420,7 +457,7 @@ const WhiteLabelSection: React.FC = () => {
         return (
           <div className={baseClasses} style={{ backgroundColor: selectedColor }}>
             <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-white rounded-full mx-auto border-2 border-black flex items-center justify-center text-3xl">
+              <div className="w-16 h-16 bg-white rounded-full mx-auto border-2 border-black flex items-center justify-center text-3xl" aria-hidden="true">
                 {logo}
               </div>
               <h3 className="text-white font-bold text-lg break-words">
@@ -438,6 +475,7 @@ const WhiteLabelSection: React.FC = () => {
               <div 
                 className="w-16 h-16 rounded-full mx-auto shadow-lg flex items-center justify-center text-2xl"
                 style={{ backgroundColor: selectedColor + '20', color: selectedColor }}
+                aria-hidden="true"
               >
                 {logo}
               </div>
@@ -460,6 +498,7 @@ const WhiteLabelSection: React.FC = () => {
                   boxShadow: '9px 9px 16px #a3b1c6, -9px -9px 16px #ffffff',
                   color: selectedColor 
                 }}
+                aria-hidden="true"
               >
                 {logo}
               </div>
@@ -485,6 +524,7 @@ const WhiteLabelSection: React.FC = () => {
                   boxShadow: '0 8px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3)',
                   color: 'white'
                 }}
+                aria-hidden="true"
               >
                 {logo}
               </div>
@@ -511,6 +551,7 @@ const WhiteLabelSection: React.FC = () => {
                   backdropFilter: 'blur(10px)',
                   color: selectedColor 
                 }}
+                aria-hidden="true"
               >
                 {logo}
               </div>
@@ -532,6 +573,7 @@ const WhiteLabelSection: React.FC = () => {
                   backgroundColor: selectedColor,
                   color: 'white'
                 }}
+                aria-hidden="true"
               >
                 {logo}
               </div>
@@ -568,7 +610,7 @@ const WhiteLabelSection: React.FC = () => {
           <div className="absolute inset-0 overflow-hidden opacity-5 pointer-events-none select-none">
              <img 
               src={pattern}
-              alt="Background pattern" 
+              alt="Textura decorativa de fundo" 
               className="w-full h-full object-cover"
             />
           </div>
@@ -577,7 +619,7 @@ const WhiteLabelSection: React.FC = () => {
           <div className="relative space-y-6 h-fit">
             <div ref={configCardRef} className="bg-white p-6 rounded-2xl border-2 border-black shadow-[6px_8px_0px_#000000]">
               <h3 className="font-bold text-xl mb-6 flex items-center">
-                <Type className="mr-3" />
+                <Type className="mr-3" aria-hidden="true" />
                 Configurações
               </h3>
               
@@ -585,7 +627,7 @@ const WhiteLabelSection: React.FC = () => {
                 {/* Template Selection */}
                 <div>
                   <label className="block text-sm font-bold mb-2 flex items-center">
-                    <Smartphone className="mr-2 w-4 h-4" />
+                    <Smartphone className="mr-2 w-4 h-4" aria-hidden="true" />
                     Template de Design
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -593,11 +635,12 @@ const WhiteLabelSection: React.FC = () => {
                       <button
                         key={template.id}
                         onClick={() => setSelectedTemplate(template.id)}
-                        className={`p-2 rounded-lg border-2 border-black text-left transition-all hover:scale-105 ${
+                        className={`p-2 rounded-lg border-2 border-black text-left transition-all hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-black ${
                           selectedTemplate === template.id
                             ? 'bg-[#FEBA0C] shadow-[3px_4px_0px_#000000]'
                             : 'bg-white hover:bg-gray-50'
                         }`}
+                        aria-pressed={selectedTemplate === template.id}
                       >
                         <div className="font-regular text-xs">{template.name}</div>
                         <div className="text-xs text-gray-600 mt-1">{template.description}</div>
@@ -615,13 +658,14 @@ const WhiteLabelSection: React.FC = () => {
                     onChange={(e) => setRestaurantName(e.target.value)}
                     className="w-full p-3 border-2 border-black rounded-lg focus:outline-none focus:border-[#FEBA0C] transition-colors"
                     placeholder="Ex: Burger Palace"
+                    aria-label="Nome do Restaurante"
                   />
                 </div>
 
                 {/* Logo Selection */}
                 <div>
                   <label className="block text-sm font-bold mb-2 flex items-center">
-                    <Upload className="mr-2 w-4 h-4" />
+                    <Upload className="mr-2 w-4 h-4" aria-hidden="true" />
                     Logo
                   </label>
                   <div className="flex space-x-3">
@@ -629,9 +673,11 @@ const WhiteLabelSection: React.FC = () => {
                       <button
                         key={logoOption}
                         onClick={() => setLogo(logoOption)}
-                        className={`w-12 h-12 text-2xl border-2 border-black rounded-lg transition-all hover:scale-110 ${
+                        className={`w-12 h-12 text-2xl border-2 border-black rounded-lg transition-all hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-black ${
                           logo === logoOption ? 'bg-[#FEBA0C] shadow-[3px_4px_0px_#000000]' : 'bg-white'
                         }`}
+                        aria-pressed={logo === logoOption}
+                        aria-label={`Selecionar logo ${logoOption}`}
                       >
                         {logoOption}
                       </button>
@@ -642,7 +688,7 @@ const WhiteLabelSection: React.FC = () => {
                 {/* Color Selection */}
                 <div>
                   <label className="block text-sm font-bold mb-2 flex items-center">
-                    <Palette className="mr-2 w-4 h-4" />
+                    <Palette className="mr-2 w-4 h-4" aria-hidden="true" />
                     Cor Principal
                   </label>
                   <div className="flex space-x-3">
@@ -650,10 +696,12 @@ const WhiteLabelSection: React.FC = () => {
                       <button
                         key={color}
                         onClick={() => setSelectedColor(color)}
-                        className={`w-12 h-12 border-2 border-black rounded-lg transition-all hover:scale-110 ${
+                        className={`w-12 h-12 border-2 border-black rounded-lg transition-all hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-black ${
                           selectedColor === color ? 'shadow-[3px_4px_0px_#000000] scale-110' : ''
                         }`}
                         style={{ backgroundColor: color }}
+                        aria-pressed={selectedColor === color}
+                        aria-label={`Selecionar cor ${color}`}
                       />
                     ))}
                   </div>
@@ -668,6 +716,7 @@ const WhiteLabelSection: React.FC = () => {
               <div
                 className="w-72 bg-black rounded-3xl p-4 shadow-lg"
                 style={{ height: configHeight ?? 580 }}
+                aria-label="Pré-visualização do aplicativo"
               >
                 {renderTemplatePreview()}
               </div>
