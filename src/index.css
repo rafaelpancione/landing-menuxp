@@ -2,44 +2,168 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Tanker Font Family - Definido aqui para ter prioridade */
-@font-face {
-  font-family: 'Tanker-Regular';
-  src: url('/fonts/tanker/Tanker-Regular.woff2') format('woff2'),
-       url('/fonts/tanker/Tanker-Regular.woff') format('woff'),
-       url('/fonts/tanker/Tanker-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+/* MenuXP Design System Tokens */
+:root {
+  --mx-black: #000000;
+  --mx-yellow: #FEBA0C;
+  --mx-red: #E53036;
+  --mx-blue: #0097E0;
+  --mx-white: #FFFFFF;
 }
 
-/* SOLUÇÃO CENTRALIZADA: Aplicar Tanker-Regular em TODOS os botões automaticamente */
-@layer base {
-  /* Aplicar Tanker-Regular em todos os botões */
-  button {
-    font-family: 'Tanker-Regular', 'Montserrat', sans-serif !important;
-  }
-  
-  /* Aplicar Tanker-Regular em botões com classes específicas */
-
-  button[class*="font-medium"] {
-    font-family: 'Tanker-Regular', 'Montserrat', sans-serif !important;
-   
-  }
-  
-  /* Aplicar Tanker-Regular em botões com classes de tamanho */
-  button[class*="text-sm"],
-  button[class*="text-base"],
-  button[class*="text-lg"],
-  button[class*="text-xl"] {
-    font-family: 'Tanker-Regular', 'Montserrat', sans-serif !important;
-  }
+/* Typography */
+.font-title {
+  font-family: 'Tanker', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Classe utilitária para casos específicos */
-@layer utilities {
-  .font-tanker {
-    font-family: 'Tanker-Regular', 'Montserrat', sans-serif !important;
-  }
-  
+.font-body {
+  font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Brutalist Components */
+.btn-brut {
+  border: 1px solid var(--mx-black);
+  border-radius: 50px;
+  box-shadow: 4px 6px 0 var(--mx-black);
+  transition: all 0.2s ease;
+  background: var(--mx-yellow);
+  color: var(--mx-black);
+  font-weight: 600;
+  padding: 12px 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-brut:hover {
+  transform: translateY(3px);
+  box-shadow: 2px 3px 0 var(--mx-black);
+}
+
+.btn-brut.white {
+  background: var(--mx-white);
+}
+
+.btn-brut.red {
+  background: var(--mx-red);
+  color: var(--mx-white);
+}
+
+.brut-card {
+  border: 1px solid var(--mx-black);
+  box-shadow: 4px 6px 0 var(--mx-black);
+  border-radius: 16px;
+  background: var(--mx-white);
+  transition: all 0.2s ease;
+}
+
+.brut-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 6px 8px 0 var(--mx-black);
+}
+
+.brut-input {
+  border: 1px solid var(--mx-black);
+  border-radius: 12px;
+  padding: 12px 16px;
+  background: var(--mx-white);
+  transition: all 0.2s ease;
+}
+
+.brut-input:focus {
+  outline: 2px solid var(--mx-black);
+  outline-offset: 2px;
+  box-shadow: 2px 4px 0 var(--mx-black);
+}
+
+.brut-badge {
+  border: 1px solid var(--mx-black);
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: var(--mx-white);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.brut-section {
+  border-top: 1px solid var(--mx-black);
+  border-bottom: 1px solid var(--mx-black);
+}
+
+.tabs-brut {
+  border: 1px solid var(--mx-black);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+}
+
+.tabs-brut button {
+  border-left: 1px solid var(--mx-black);
+  background: var(--mx-white);
+  padding: 12px 24px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.tabs-brut button:first-child {
+  border-left: none;
+}
+
+.tabs-brut button[data-state='active'] {
+  background: var(--mx-blue);
+  color: #fff;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border: 1px solid var(--mx-black);
+  border-radius: 20px;
+  background: var(--mx-white);
+  font-size: 14px;
+  font-weight: 500;
+  gap: 4px;
+}
+
+.floating-chip {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: var(--mx-yellow);
+  border: 1px solid var(--mx-black);
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 2px 4px 0 var(--mx-black);
+  z-index: 10;
+}
+
+.focus-brut:focus {
+  outline: 2px solid var(--mx-black);
+  outline-offset: 2px;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--mx-white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--mx-black);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
 }

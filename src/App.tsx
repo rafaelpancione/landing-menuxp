@@ -1,33 +1,31 @@
 import React from 'react';
-import ProgressBar from './components/ProgressBar';
-import Header from './components/Header';
-import HeroSection from './components/HeroSection';
-import WhiteLabelSection from './components/WhiteLabelSection';
-import GameFlowSection from './components/GameFlowSection';
-import AdminPanelSection from './components/AdminPanelSection';
-import AIRevenueSection from './components/AIRevenueSection';
-/* import TestimonialsSection from './components/TestimonialsSection'; */
-import PricingSection from './components/PricingSection';
-/* import FinalCTASection from './components/FinalCTASection'; */
-import FloatingFAQ from './components/FloatingFAQ';
+import NavBar from './components/NavBar';
+import Hero from './components/Hero';
+import TrustBar from './components/TrustBar';
+import ValueProps from './components/ValueProps';
+import FeatureShowcase from './components/FeatureShowcase';
+import HowItWorks from './components/HowItWorks';
+import MiniGames from './components/MiniGames';
+import Analytics from './components/Analytics';
+import CTASection from './components/CTASection';
+import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="min-h-screen bg-white">
-      <ProgressBar />
-      <Header />
+    <div className="font-body">
+      <NavBar />
       <main>
-        <HeroSection />
-        <WhiteLabelSection />
-        <GameFlowSection />
-        <AdminPanelSection />
-        <AIRevenueSection />
-        {/*<TestimonialsSection />*/}
-        <PricingSection />
-       {/* <FinalCTASection /> */}
+        <Hero />
+        <TrustBar />
+        <ValueProps />
+        <FeatureShowcase />
+        <HowItWorks />
+        <MiniGames />
+        <Analytics />
+        <CTASection />
+        <FAQ />
       </main>
-      <FloatingFAQ />
       <Footer />
     </div>
   );
