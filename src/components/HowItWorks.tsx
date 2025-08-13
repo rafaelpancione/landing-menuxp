@@ -39,13 +39,13 @@ type Order = {
 };
 
 const STATUS_META: Record<StatusKey, { title: string; header: string; dot: string }> = {
-  pendente:    { title: 'Pendente',        header: 'bg-red-100 border-red-300',      dot: 'bg-red-500' },
-  recebido:    { title: 'Recebido',        header: 'bg-amber-100 border-amber-300',  dot: 'bg-amber-500' },
-  em_preparo:  { title: 'Em Preparo',      header: 'bg-yellow-100 border-yellow-300',dot: 'bg-yellow-500' },
-  pronto:      { title: 'Pronto',          header: 'bg-green-100 border-green-300',  dot: 'bg-green-500' },
-  saiu_entrega:{ title: 'Saiu p/ Entrega', header: 'bg-blue-100 border-blue-300',    dot: 'bg-blue-500' },
+  pendente:    { title: 'Pendente',        header: 'bg-red-100 border-red-300',         dot: 'bg-red-500' },
+  recebido:    { title: 'Recebido',        header: 'bg-amber-100 border-amber-300',     dot: 'bg-amber-500' },
+  em_preparo:  { title: 'Em Preparo',      header: 'bg-yellow-100 border-yellow-300',   dot: 'bg-yellow-500' },
+  pronto:      { title: 'Pronto',          header: 'bg-green-100 border-green-300',     dot: 'bg-green-500' },
+  saiu_entrega:{ title: 'Saiu p/ Entrega', header: 'bg-blue-100 border-blue-300',       dot: 'bg-blue-500' },
   entregue:    { title: 'Entregue',        header: 'bg-emerald-100 border-emerald-300', dot: 'bg-emerald-500' },
-  cancelado:   { title: 'Cancelado',       header: 'bg-gray-200 border-gray-300',    dot: 'bg-gray-500' }
+  cancelado:   { title: 'Cancelado',       header: 'bg-gray-200 border-gray-300',       dot: 'bg-gray-500' }
 };
 
 const HowItWorks: React.FC = () => {
@@ -204,8 +204,7 @@ const HowItWorks: React.FC = () => {
   const OrderCard: React.FC<{ order: Order }> = ({ order }) => {
     const meta = STATUS_META[order.status];
     const elapsed = diffMinutes(order.receivedAt);
-   const etaLabel = order.eta ? formatTime(order.eta) : undefined;
-
+    const etaLabel = order.eta ? formatTime(order.eta) : undefined;
 
     // Ações (demo): só logs/confirm; em app real, dispararia event/handler
     const handleAction = (type: 'start' | 'done' | 'cancel') => {
@@ -227,11 +226,11 @@ const HowItWorks: React.FC = () => {
 
         {/* Corpo */}
         <div className="p-3 space-y-3">
-          {/* Nº e Cliente */}
+          {/* Cliente (ID removido aqui, já aparece no topo) */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-sm font-medium">
               <User className="w-4 h-4 text-black/70" />
-              <span>#{order.id} — {order.customer}</span>
+              <span>{order.customer}</span>
             </div>
             <PlaceBadge place={order.place} />
           </div>
@@ -322,7 +321,7 @@ const HowItWorks: React.FC = () => {
   const ordersByStatus = (status: StatusKey) => initialOrders.filter(o => o.status === status);
 
   return (
-    <section id="kanban" className="bg-white py-20">
+    <section id="kanban" className="bg-white py-20 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Steps */}
@@ -370,18 +369,19 @@ const HowItWorks: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative"
+            className="relative max-w-full"
+            style={{ overflow: 'hidden' }} // evita overflow durante a animação
           >
-            <div className="brut-card p-6 bg-white">
+            <div className="brut-card p-6 bg-white max-w-full">
               <h4 className="font-title text-xl font-regular text-center mb-4">
                 Gestão de Pedidos
               </h4>
 
               {/* wrapper responsivo com scroll horizontal no mobile */}
-              <div className="overflow-x-auto -mx-4 sm:mx-0">
-                <div className="px-4 sm:px-0 min-w-[720px] lg:min-w-0 grid grid-flow-col auto-cols-[minmax(320px,1fr)] gap-4">
+              <div className="w-full max-w-full overflow-x-auto overscroll-x-contain [-webkit-overflow-scrolling:touch]">
+                <div className="scroll-px-4 min-w-max grid grid-flow-col auto-cols-[minmax(280px,1fr)] sm:auto-cols-[minmax(320px,1fr)] gap-4 snap-x snap-mandatory">
                   {columns.map((col) => (
-                    <div key={col.key} className="space-y-2">
+                    <div key={col.key} className="space-y-2 snap-start">
                       <div className={`rounded-lg p-2 text-center border ${STATUS_META[col.key].header}`}>
                         <h5 className="font-body font-semibold text-sm">{col.title}</h5>
                       </div>
