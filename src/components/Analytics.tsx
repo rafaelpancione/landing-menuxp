@@ -77,7 +77,7 @@ const Analytics: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <div className="brut-card p-8 bg-white">
-              <h4 className="font-title text-xl font-bold text-center mb-8">
+              <h4 className="font-title text-xl font-regular text-center mb-8">
                 Resultados dos últimos 30 dias
               </h4>
               

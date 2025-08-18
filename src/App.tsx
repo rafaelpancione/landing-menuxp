@@ -3,7 +3,7 @@ import NavBar from './components/NavBar';
 import Hero from './components/Hero';
 import TrustBar from './components/TrustBar';
 import ValueProps from './components/ValueProps';
-import FeatureShowcase from './components/FeatureShowcase';
+/*import FeatureShowcase from './components/FeatureShowcase';*/
 import HowItWorks from './components/HowItWorks';
 import MiniGames from './components/MiniGames';
 import Analytics from './components/Analytics';
@@ -19,7 +19,7 @@ function App() {
         <Hero />
         <TrustBar />
         <ValueProps />
-        <FeatureShowcase />
+       {/* <FeatureShowcase /> */}
         <HowItWorks />
         <MiniGames />
         <Analytics />

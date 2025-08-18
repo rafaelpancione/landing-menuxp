@@ -64,14 +64,16 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <h1 className="font-title text-4xl sm:text-5xl lg:text-6xl font-regular text-black mb-6 leading-tight">
-              <span className="block">Seu app de pedidos</span>
-              <span className="inline-block bg-[var(--mx-yellow)] px-4 py-1 border border-black rounded-lg mr-2 text-3xl sm:text-4xl lg:text-5xl">
-                sem taxas
+              <span className="block">
+                Seu{' '}
+                <span className="inline-block bg-[var(--mx-yellow)] px-4 py-1 border border-black rounded-lg mr-2 text-white text-3xl sm:text-4xl lg:text-5xl align-middle">
+                  restaurante
+                </span>
               </span>
-              <span className="block mt-2">
-                com{' '}
-                <span className="underline decoration-4 decoration-[var(--mx-yellow)]">
-                  IA e Gamificação
+              <span className="block">
+                merece mais{' '}
+                <span className="inline-block bg-[var(--mx-yellow)] px-4 py-1 border border-black rounded-lg mr-2 text-white text-3xl sm:text-4xl lg:text-5xl align-middle">
+                  experiência
                 </span>
               </span>
             </h1>

@@ -65,7 +65,7 @@ const ValueProps: React.FC = () => {
   };
 
   return (
-    <section id="features" className="bg-mx-red py-20 "> 
+    <section id="features" className="bg-gray-50 py-20 "> 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -90,26 +90,36 @@ const ValueProps: React.FC = () => {
           viewport={{ once: true }}
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {cards.map((card, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              className="brut-card p-8 group"
-            >
-              <div className="mb-6">
-                <div className="w-16 h-16 flex items-center justify-center mb-4">
-  <img src={card.icon} alt={card.title} className="w-18 h-18" />
-</div>
-
-                <h3 className="font-title text-xl font-regular text-black mb-3">
-                  {card.title}
-                </h3>
-              </div>
-              <p className="font-body text-gray-600 leading-relaxed">
-                {card.description}
-              </p>
-            </motion.div>
-          ))}
+          {cards.map((card, index) => {
+            const isSoon = card.title === 'IA + Gamificação';
+            return (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                className="brut-card p-8 group relative"
+              >
+                {isSoon && (
+                  <span
+                    className="absolute top-4 right-4 bg-[#FEBA0C] text-black text-xs font-bold px-3 py-1 rounded-full border border-black shadow-[2px_2px_0px_#000] z-10 select-none"
+                    aria-label="Em breve"
+                  >
+                    EM BREVE
+                  </span>
+                )}
+                <div className="mb-6">
+                  <div className="w-16 h-16 flex items-center justify-center mb-4">
+                    <img src={card.icon} alt={card.title} className="w-18 h-18" />
+                  </div>
+                  <h3 className="font-title text-xl font-regular text-black mb-3">
+                    {card.title}
+                  </h3>
+                </div>
+                <p className="font-body text-gray-600 leading-relaxed">
+                  {card.description}
+                </p>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>
